@@ -1,0 +1,42 @@
+# Finite real-number helpers; no new language syntax or numeric types.
+function _math_finite(value)
+    assert(type(value) == "number", "math argument must be a number")
+    assert(value - value == 0, "math argument must be finite")
+    return value
+end
+
+function abs(value)
+    let n = _math_finite(value)
+    if n < 0 then return -n end
+    return n
+end
+
+function min(a, b)
+    let left = _math_finite(a)
+    let right = _math_finite(b)
+    if left < right then return left end
+    return right
+end
+
+function max(a, b)
+    let left = _math_finite(a)
+    let right = _math_finite(b)
+    if left > right then return left end
+    return right
+end
+
+function clamp(value, lower, upper)
+    let n = _math_finite(value)
+    let lo = _math_finite(lower)
+    let hi = _math_finite(upper)
+    assert(lo <= hi, "clamp lower bound must not exceed upper bound")
+    return min(max(n, lo), hi)
+end
+
+function pow(base, exponent)
+    return _luma_pow(base, exponent)
+end
+
+function sqrt(value)
+    return _luma_sqrt(value)
+end

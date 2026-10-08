@@ -1,0 +1,12 @@
+# Console composition only: the existing input/print/num remain the primitives.
+function prompt(message)
+    assert(type(message) == "string", "prompt message must be a string")
+    print(message)
+    return input()
+end
+
+function read_number()
+    let text = input()
+    if text == nil then return nil end
+    return num(text)
+end

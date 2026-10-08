@@ -1,0 +1,65 @@
+# Luma: витрина синтаксиса.
+# Исполняемая витрина Luma 0.2.0: run и vm.
+
+let x = 10
+let y = 20
+
+print(x + y)                       # 30
+
+if x < y then
+    print("x меньше y")
+else
+    print("x не меньше y")
+end
+
+# elseif-цепочка
+let score = 85
+if score >= 90 then
+    print("отлично")
+elseif score >= 70 then
+    print("хорошо")
+else
+    print("можно лучше")
+end
+
+# функции и замыкания
+function add(a, b)
+    return a + b
+end
+
+# greet захватывает переменную prefix из окружения makeGreeter (замыкание)
+function makeGreeter(prefix)
+    function greet(name)
+        return prefix .. " " .. name
+    end
+    return greet
+end
+
+let hello = makeGreeter("Привет")
+
+print(add(2, 3))                # 5
+print(hello("Мир"))             # Привет Мир
+
+# массивы
+let numbers = [10, 20, 30]
+print(numbers[0])               # 10
+print(len(numbers))             # 3
+push(numbers, 40)
+
+# циклы
+let total = 0
+for i in 0..len(numbers) do
+    total = total + numbers[i]
+end
+print(total)                    # 100
+
+let n = 3
+while n > 0 do
+    print("обратный отсчёт: " .. n)
+    n = n - 1
+end
+
+# логика: короткое замыкание и truthiness
+let name = nil
+print(name or "гость")          # гость
+print(not (1 == 2))             # true

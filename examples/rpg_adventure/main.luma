@@ -1,0 +1,99 @@
+# «Хроники Северного тракта» — модульная текстовая RPG.
+# Демонстрирует import, вложенные импорты, массивы, функции, циклы и input().
+#
+# Запуск из корня проекта:
+#   luma vm examples\rpg_adventure\main.luma
+
+import "lib/ui.luma"
+import "lib/characters.luma"
+import "lib/combat.luma"
+
+chapter("I", "Дорога к старому мосту")
+let hero = ask("Назови героя:", "Безымянный")
+let classChoice = ask("Класс: warrior / mage / ranger", "warrior")
+
+if classChoice != "warrior" and classChoice != "mage" and classChoice != "ranger" then
+    print("Неизвестный путь. Ты начинаешь как воин.")
+    classChoice = "warrior"
+end
+
+let stats = chooseStats(classChoice)
+let maxHp = stats[0]
+let hp = maxHp
+let basePower = stats[1]
+let potions = stats[2]
+let title = stats[3]
+let gold = 0
+let stage = 1
+let fled = false
+
+story("Староста просит " .. hero .. " очистить Северный тракт.")
+
+while stage <= 3 and hp > 0 and not fled do
+    chapter(stage, "Испытание тракта")
+    introduceEnemy(stage)
+    let foe = enemyName(stage)
+    let foeHp = enemyHp(stage)
+    let foePower = enemyDamage(stage)
+
+    while hp > 0 and foeHp > 0 and not fled do
+        print("")
+        showStatus(hero, title, hp, maxHp, potions, gold)
+        print("У врага «" .. foe .. "» здоровья: " .. foeHp)
+        let action = ask("Действие: attack / special / heal / inspect / flee", "flee")
+
+        if action == "attack" then
+            foeHp = foeHp - basePower
+            print("Обычная атака наносит " .. basePower .. " урона.")
+        elseif action == "special" then
+            let power = basePower + specialBonus(classChoice)
+            foeHp = foeHp - power
+            describeAttack(classChoice, power)
+        elseif action == "heal" then
+            if potions > 0 then
+                potions = potions - 1
+                hp = hp + 12
+                if hp > maxHp then hp = maxHp end
+                print("Зелье возвращает 12 здоровья.")
+            else
+                print("Зелий больше нет.")
+            end
+        elseif action == "inspect" then
+            print("Ты изучаешь противника и находишь слабое место.")
+            print("Подсказка: special наносит дополнительный урон.")
+        elseif action == "flee" then
+            fled = true
+            print("Ты покидаешь тракт. Деревня останется ждать другого героя.")
+        else
+            print("Команда не распознана: враг пользуется заминкой.")
+        end
+
+        if foeHp > 0 and hp > 0 and not fled then
+            print(foe .. " атакует и наносит " .. foePower .. " урона.")
+            hp = hp - foePower
+        end
+    end
+
+    if foeHp <= 0 then
+        let reward = enemyReward(stage)
+        gold = gold + reward
+        print("Победа над «" .. foe .. "»! Награда: " .. reward .. " монет.")
+        if stage == 2 then
+            potions = potions + 1
+            print("В сумке разбойника нашлось ещё одно зелье.")
+        end
+    end
+
+    stage = stage + 1
+end
+
+chapter("Финал", "Возвращение")
+if hp <= 0 then
+    print(hero .. " пал в бою, но его история станет легендой.")
+elseif fled then
+    print(hero .. " вернулся живым и сможет подготовиться лучше.")
+else
+    print(hero .. " очищает Северный тракт и приносит в деревню " .. gold .. " монет.")
+    print("Староста объявляет: «Да здравствует " .. hero .. ", " .. title .. " тракта!»")
+end
+separator()

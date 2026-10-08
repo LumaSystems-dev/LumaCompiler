@@ -1,0 +1,17 @@
+# Этап 6: while, for, break, continue.
+
+let n = 3
+while n > 0 do
+    print("обратный отсчёт: " .. n)
+    n = n - 1
+end
+
+for i in 0..5 do
+    if i % 2 == 0 then continue end
+    print("нечётное: " .. i)
+end
+
+for i in 0..10 by 4 do
+    if i > 6 then break end
+    print(i)
+end

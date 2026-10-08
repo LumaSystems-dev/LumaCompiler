@@ -1,0 +1,14 @@
+# Этап 10: компиляция в bytecode (luma bytecode examples\bytecode_demo.luma).
+let x = 10
+let y = 20
+print(x + y)
+
+function double(n)
+    return n * 2
+end
+
+print(double(21))
+
+for i in 0..2 do
+    print(i)
+end

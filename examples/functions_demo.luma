@@ -1,0 +1,38 @@
+# Этап 7: функции, return, замыкания.
+
+function add(a, b)
+    return a + b
+end
+print(add(10, 20))              # 30
+
+# Замыкание: greet захватывает prefix из окружения makeGreeter
+function makeGreeter(prefix)
+    function greet(name)
+        return prefix .. " " .. name
+    end
+    return greet
+end
+
+let hello = makeGreeter("Привет")
+print(hello("Мир"))             # Привет Мир
+
+# Замыкание с мутацией: каждый счётчик хранит свой count
+function makeCounter()
+    let count = 0
+    function increment()
+        count = count + 1
+        return count
+    end
+    return increment
+end
+
+let next = makeCounter()
+print(next())                   # 1
+print(next())                   # 2
+
+# Рекурсия
+function fact(n)
+    if n <= 1 then return 1 end
+    return n * fact(n - 1)
+end
+print(fact(10))                 # 3628800

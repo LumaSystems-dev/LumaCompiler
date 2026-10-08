@@ -1,0 +1,26 @@
+# A deterministic dice expedition using all four library modules.
+import "../stdlib/math.luma"
+import "../stdlib/string.luma"
+import "../stdlib/random.luma"
+import "../stdlib/io.luma"
+
+let name = trim(prompt("Как зовут путешественника?") or "Гость")
+if string_length(name) == 0 then name = "Гость" end
+print("Числовой seed (1..2147483646), либо EOF для seed=1:")
+let seed = read_number() or 1
+random_seed(seed)
+
+let hp = 30
+let rewards = []
+print("В путь, " .. name .. "!")
+for room in 1..4 do
+    let dice = random_range(1, 6)
+    let damage = max(0, 7 - dice)
+    hp = clamp(hp - damage, 0, 30)
+    push(rewards, "комната " .. room .. ": кубик=" .. dice)
+    if contains(name, " ") then print("Полное имя героя: " .. name) end
+    print("После комнаты " .. room .. ": HP=" .. hp)
+end
+print(join(rewards, " | "))
+print("Оценка выносливости: " .. sqrt(pow(hp, 2)))
+print("Экспедиция завершена.")

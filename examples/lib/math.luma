@@ -1,0 +1,10 @@
+# Модуль math.luma для демонстрации import (Luma 0.1.1).
+function add(a, b)
+    return a + b
+end
+
+function square(x)
+    return x * x
+end
+
+let moduleTag = "math.luma"   # верхнеуровневые переменные модуля тоже импортируются

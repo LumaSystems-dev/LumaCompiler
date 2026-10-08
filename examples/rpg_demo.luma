@@ -1,0 +1,93 @@
+# «Тени у Каменного моста» — маленькая текстовая RPG для Luma 0.1.1.
+# Команды в бою: attack, heal, flee. Класс: warrior или mage.
+
+function line()
+    print("----------------------------------------")
+end
+
+line()
+print("        ТЕНИ У КАМЕННОГО МОСТА")
+line()
+print("Как зовут героя?")
+let hero = input() or "Безымянный"
+
+print("Выбери класс: warrior или mage")
+let class = input() or "warrior"
+let maxHp = 24
+let damage = 6
+let title = "воин"
+
+if class == "mage" then
+    maxHp = 18
+    damage = 9
+    title = "маг"
+elseif class != "warrior" then
+    print("Неизвестный класс — судьба выбирает воина.")
+    class = "warrior"
+end
+
+let hp = maxHp
+let potions = 2
+let gold = 0
+let enemyHp = 26
+let enemyDamage = 5
+
+line()
+print(hero .. ", ты " .. title .. ".")
+print("У моста тебя ждёт гоблин-разбойник.")
+print("Твоя цель: защитить деревню и пережить бой.")
+
+while hp > 0 and enemyHp > 0 do
+    line()
+    print("Твоё здоровье: " .. hp .. "/" .. maxHp .. " | зелья: " .. potions)
+    print("Здоровье гоблина: " .. enemyHp)
+    print("Действие: attack / heal / flee")
+    let action = input() or "flee"
+
+    if action == "attack" then
+        let hit = damage
+        if class == "mage" then
+            print("Ты выпускаешь искру синего огня!")
+            hit = hit + 2
+        else
+            print("Ты бьёшь мечом.")
+        end
+        enemyHp = enemyHp - hit
+        print("Гоблин получает " .. hit .. " урона.")
+    elseif action == "heal" then
+        if potions > 0 then
+            potions = potions - 1
+            hp = hp + 10
+            if hp > maxHp then hp = maxHp end
+            print("Тёплое зелье восстанавливает 10 здоровья.")
+        else
+            print("Сумка пуста — лечиться нечем.")
+        end
+    elseif action == "flee" then
+        print("Ты отступаешь в лес. Мост остаётся без защиты.")
+        hp = 0
+    else
+        print("Гоблин не понял этого манёвра. Ход потерян!")
+    end
+
+    if enemyHp > 0 and hp > 0 then
+        print("Гоблин отвечает ржавым клинком.")
+        hp = hp - enemyDamage
+        print("Ты получаешь " .. enemyDamage .. " урона.")
+    end
+end
+
+line()
+if enemyHp <= 0 then
+    gold = 12 + potions * 3
+    print("Победа! Гоблин бросает оружие и убегает.")
+    print(hero .. " спасает деревню и получает " .. gold .. " монет.")
+    if class == "mage" then
+        print("Староста просит тебя остаться придворным магом.")
+    else
+        print("Староста вручает тебе ключ от таверны.")
+    end
+else
+    print("Приключение окончено. В следующий раз мост будет ждать героя.")
+end
+line()

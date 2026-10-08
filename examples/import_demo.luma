@@ -1,0 +1,7 @@
+# Luma 0.1.1: import — компиляционное подключение модуля.
+# Путь разрешается относительно директории ЭТОГО файла.
+import "lib/math.luma"
+
+print(add(5, 3))          # 8
+print(square(4))          # 16
+print(moduleTag)          # math.luma

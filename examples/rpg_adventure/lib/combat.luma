@@ -1,0 +1,45 @@
+# Боевые данные. Эти вложенные импорты намеренно повторяют импорты main.luma:
+# resolver должен загрузить каждый модуль лишь один раз.
+import "ui.luma"
+import "characters.luma"
+
+function enemyName(stage)
+    if stage == 1 then return "волк из тумана" end
+    if stage == 2 then return "сборщик пошлин" end
+    return "хранитель старого моста"
+end
+
+function enemyHp(stage)
+    if stage == 1 then return 18 end
+    if stage == 2 then return 27 end
+    return 38
+end
+
+function enemyDamage(stage)
+    if stage == 1 then return 4 end
+    if stage == 2 then return 6 end
+    return 8
+end
+
+function enemyReward(stage)
+    if stage == 1 then return 7 end
+    if stage == 2 then return 13 end
+    return 30
+end
+
+function introduceEnemy(stage)
+    separator()
+    print("Перед тобой: " .. enemyName(stage))
+    if stage == 1 then
+        print("Из травы доносится низкое рычание.")
+    elseif stage == 2 then
+        print("Разбойник перекрывает дорогу и требует плату.")
+    else
+        print("Под каменным мостом просыпается древняя тень.")
+    end
+end
+
+function describeAttack(choice, power)
+    print("Ты применяешь " .. specialAttackName(choice) ..
+          " и наносишь " .. power .. " урона.")
+end

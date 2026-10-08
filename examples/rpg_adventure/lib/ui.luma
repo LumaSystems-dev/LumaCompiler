@@ -1,0 +1,27 @@
+# Общие функции консольного интерфейса для «Хроник Северного тракта».
+
+function separator()
+    print("================================================")
+end
+
+function chapter(number, text)
+    separator()
+    print("ГЛАВА " .. number .. ": " .. text)
+    separator()
+end
+
+function showStatus(hero, title, hp, maxHp, potions, gold)
+    print(hero .. " — " .. title)
+    print("Здоровье: " .. hp .. "/" .. maxHp ..
+          " | зелья: " .. potions .. " | монеты: " .. gold)
+end
+
+function ask(prompt, fallback)
+    print(prompt)
+    return input() or fallback
+end
+
+function story(text)
+    print("")
+    print(text)
+end

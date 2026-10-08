@@ -1,0 +1,65 @@
+# Strings retain Luma's byte semantics: offsets/counts are UTF-8 bytes.
+function string_length(text)
+    assert(type(text) == "string", "string_length expects a string")
+    return len(text)
+end
+
+function substr(text, start, count)
+    return _luma_slice(text, start, count)
+end
+
+function find(text, needle)
+    let size = string_length(text)
+    let width = string_length(needle)
+    if width > size then return -1 end
+    for i in 0..(size - width + 1) do
+        if substr(text, i, width) == needle then return i end
+    end
+    return -1
+end
+
+function contains(text, needle)
+    return find(text, needle) >= 0
+end
+
+function starts_with(text, prefix)
+    let size = string_length(text)
+    let width = string_length(prefix)
+    if width > size then return false end
+    return substr(text, 0, width) == prefix
+end
+
+function ends_with(text, suffix)
+    let size = string_length(text)
+    let width = string_length(suffix)
+    if width > size then return false end
+    return substr(text, size - width, width) == suffix
+end
+
+function _string_space(byte)
+    return byte == " " or byte == "\t" or byte == "\r" or byte == "\n"
+end
+
+function trim(text)
+    let stop = string_length(text)
+    let start = 0
+    while start < stop and _string_space(substr(text, start, 1)) do
+        start = start + 1
+    end
+    while stop > start and _string_space(substr(text, stop - 1, 1)) do
+        stop = stop - 1
+    end
+    return substr(text, start, stop - start)
+end
+
+function join(parts, separator)
+    assert(type(parts) == "array", "join expects an array")
+    assert(type(separator) == "string", "join separator must be a string")
+    let result = ""
+    for i in 0..len(parts) do
+        assert(type(parts[i]) == "string", "join elements must be strings")
+        if i > 0 then result = result .. separator end
+        result = result .. parts[i]
+    end
+    return result
+end

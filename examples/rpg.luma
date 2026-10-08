@@ -1,0 +1,95 @@
+print("================================")
+print("       RPG LUMA")
+print("================================")
+
+let hp = 100
+let gold = 0
+let room = 1
+
+print("Ты входишь в старое подземелье...")
+print("У тебя 100 HP.")
+
+while hp > 0 do
+
+    print("")
+    print("---------- Комната " .. room .. " ----------")
+    print("1 - Исследовать")
+    print("2 - Отдохнуть")
+    print("3 - Выйти")
+
+    let choice = input()
+
+    if choice == "1" then
+
+        let event = room % 3 + 1
+
+        if event == 1 then
+            print("Ты встретил гоблина!")
+            print("Гоблин наносит 15 урона.")
+
+            hp = hp - 15
+            gold = gold + 20
+
+            print("Ты победил и получил 20 золота.")
+        end
+
+        if event == 2 then
+            print("Ты встретил скелета!")
+            print("Скелет наносит 25 урона.")
+
+            hp = hp - 25
+            gold = gold + 35
+
+            print("Ты победил и получил 35 золота.")
+        end
+
+        if event == 3 then
+            print("Ты нашёл сундук!")
+
+            gold = gold + 50
+
+            print("В сундуке было 50 золота!")
+        end
+
+        print("HP: " .. hp)
+        print("Золото: " .. gold)
+
+        room = room + 1
+    end
+
+    if choice == "2" then
+
+        if hp < 100 then
+            hp = hp + 20
+
+            if hp > 100 then
+                hp = 100
+            end
+
+            print("Ты отдохнул.")
+            print("HP: " .. hp)
+        end
+
+        if hp == 100 then
+            print("У тебя полное здоровье.")
+        end
+    end
+
+    if choice == "3" then
+        print("")
+        print("Ты покинул подземелье.")
+        print("Получено золота: " .. gold)
+
+        break
+    end
+
+end
+
+if hp <= 0 then
+    print("")
+    print("ТЫ ПОГИБ.")
+    print("Золото: " .. gold)
+end
+
+print("")
+print("Игра окончена.")

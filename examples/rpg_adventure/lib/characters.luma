@@ -1,0 +1,32 @@
+# Характеристики героев. Формат массива:
+# [максимум здоровья, сила атаки, зелья, название класса].
+
+function warriorStats()
+    return [34, 8, 2, "воин"]
+end
+
+function mageStats()
+    return [24, 11, 3, "маг"]
+end
+
+function rangerStats()
+    return [28, 9, 2, "следопыт"]
+end
+
+function chooseStats(choice)
+    if choice == "mage" then return mageStats() end
+    if choice == "ranger" then return rangerStats() end
+    return warriorStats()
+end
+
+function specialAttackName(choice)
+    if choice == "mage" then return "ледяную стрелу" end
+    if choice == "ranger" then return "меткий выстрел" end
+    return "сокрушительный удар"
+end
+
+function specialBonus(choice)
+    if choice == "mage" then return 3 end
+    if choice == "ranger" then return 2 end
+    return 1
+end

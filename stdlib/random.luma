@@ -1,0 +1,40 @@
+# Park-Miller PRNG with Schrage's method; all intermediates are exact integers
+# representable by double. Deterministic default seed; not cryptographic.
+let _random_state = 1
+
+function random_seed(seed)
+    assert(type(seed) == "number", "random seed must be a number")
+    assert(seed >= 1 and seed <= 2147483646 and seed % 1 == 0,
+           "random seed must be an integer in 1..2147483646")
+    _random_state = seed
+end
+
+function _random_next()
+    let low = _random_state % 127773
+    let high = (_random_state - low) / 127773
+    let next = 16807 * low - 2836 * high
+    if next <= 0 then next = next + 2147483647 end
+    _random_state = next
+    return next - 1
+end
+
+function random()
+    return _random_next() / 2147483646
+end
+
+function random_range(lower, upper)
+    assert(type(lower) == "number" and type(upper) == "number",
+           "random_range bounds must be numbers")
+    assert(lower >= -2147483646 and upper <= 2147483646 and lower <= upper,
+           "random_range bounds are invalid")
+    assert(lower % 1 == 0 and upper % 1 == 0,
+           "random_range bounds must be integers")
+    let span = upper - lower + 1
+    assert(span <= 2147483646, "random_range span is too large")
+    let limit = 2147483646 - 2147483646 % span
+    # Reject the incomplete tail instead of introducing modulo bias.
+    while true do
+        let sample = _random_next()
+        if sample < limit then return lower + sample % span end
+    end
+end

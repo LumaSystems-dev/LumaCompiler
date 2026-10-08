@@ -1,0 +1,17 @@
+# Этап 8: массивы и встроенные функции.
+let numbers = [10, 20, 30]
+
+print(numbers[0])        # 10
+print(len(numbers))      # 3
+
+push(numbers, 40)
+print(numbers[3])        # 40
+print(len(numbers))      # 4
+
+numbers[0] = 99
+print(str(numbers))      # [99, 20, 30, 40]
+
+let matrix = [[1, 2], [3, 4]]
+print(matrix[1][0])      # 3
+
+print(num("12.5") + 1)   # 13.5

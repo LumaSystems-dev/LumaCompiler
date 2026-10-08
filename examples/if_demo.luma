@@ -1,0 +1,16 @@
+# Этап 5: if / elseif / else.
+let score = 85
+
+if score >= 90 then
+    print("отлично")
+elseif score >= 70 then
+    print("хорошо")
+else
+    print("можно лучше")
+end
+
+# Переменная, объявленная внутри блока, наружу не видна (область видимости).
+if true then
+    let message = "готово"
+    print(message)
+end
